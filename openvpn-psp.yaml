@@ -1,0 +1,28 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: psp-openvpn
+rules:
+- apiGroups: ['policy']
+  resources: ['podsecuritypolicies']
+  verbs:     ['use']
+  resourceNames: ['privileged']
+- apiGroups: ['extensions']
+  resources: ['podsecuritypolicies']
+  verbs:     ['use']
+  resourceNames: ['privileged']
+
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: psp-openvpn
+subjects:
+- kind: Group
+  apiGroup: rbac.authorization.k8s.io
+  name: system:serviceaccounts:openvpn
+roleRef:
+  kind: ClusterRole
+  name: psp-openvpn
+  apiGroup: rbac.authorization.k8s.io
